@@ -20,6 +20,9 @@ require("lazy").setup({
     spec = {
         'killitar/obscure.nvim',
         { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate'},
+        { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = {'nvim-lua/plenary.nvim'} },
+        { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" } },
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
     },
     -- disable `luarocks` support completely
     rocks = { enabled = false },
@@ -51,3 +54,23 @@ require('nvim-treesitter.configs').setup {
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
 }
+
+-- Setup telescope
+require('telescope').setup {
+    pickers = {
+        find_files = {theme = "ivy" },
+        buffers = {theme = "ivy" },
+    },
+    extensions = { file_browser = { theme = "ivy" } },
+}
+require('telescope').load_extension('fzf')
+require("telescope").load_extension('file_browser')
+require('telescope.themes').get_ivy()
+vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, {})
+vim.keymap.set('n', '<leader>ff', function()
+    require('telescope').extensions.file_browser.file_browser({cwd = vim.fn.expand("%:p:h")})
+end)
+vim.keymap.set('n', '<leader>bb', require('telescope.builtin').buffers, {})
+vim.keymap.set('n', '<leader>ps', function()
+    require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") });
+end)
