@@ -18,10 +18,18 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
     spec = {
-        -- add your plugins here
+        'killitar/obscure.nvim',
     },
     -- disable `luarocks` support completely
     rocks = { enabled = false },
     -- automatically check for plugin updates
     checker = { enabled = true },
 })
+
+-- Color scheme
+vim.cmd("colorscheme obscure")
+-- transparent background
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'none' })
