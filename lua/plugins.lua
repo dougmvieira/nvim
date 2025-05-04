@@ -23,6 +23,7 @@ require("lazy").setup({
         { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = {'nvim-lua/plenary.nvim'} },
         { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" } },
         { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' },
+        { 'ThePrimeagen/harpoon', dependencies = {'nvim-lua/plenary.nvim'} },
     },
     -- disable `luarocks` support completely
     rocks = { enabled = false },
@@ -74,3 +75,11 @@ vim.keymap.set('n', '<leader>bb', require('telescope.builtin').buffers, {})
 vim.keymap.set('n', '<leader>ps', function()
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep > ") });
 end)
+
+-- Setup harpoon
+vim.keymap.set("n", "<leader>a", require('harpoon.mark').add_file)
+vim.keymap.set("n", "<C-e>", require('harpoon.ui').toggle_quick_menu)
+vim.keymap.set("n", "<C-j>", function() require('harpoon.ui').nav_file(1) end)
+vim.keymap.set("n", "<C-k>", function() require('harpoon.ui').nav_file(2) end)
+vim.keymap.set("n", "<C-l>", function() require('harpoon.ui').nav_file(3) end)
+vim.keymap.set("n", "<C-;>", function() require('harpoon.ui').nav_file(4) end)
