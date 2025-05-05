@@ -30,3 +30,12 @@ vim.keymap.set("n", "Q", "<nop>")
 
 -- Find current selection and replace with user input
 vim.keymap.set("v", "<leader>r", '"hy:%s/\\v<C-r>h//g<left><left>')
+
+-- spacemacs-like key bindings -- see also telescope config and shell.lua
+vim.keymap.set("n", "<leader>fs", ":w\n")
+vim.keymap.set("n", "<leader>bd", ":bd\n")
+vim.keymap.set("n", "<leader>qq", ":qa\n")
+vim.keymap.set("n", "<leader><Tab>", ":b#\n")
+vim.keymap.set("n", "<leader>w<Tab>", "<C-w>p")
+vim.keymap.set("n", "<leader>wd", "<C-w>c")
+vim.keymap.set("n", "<Tab>", "==")
