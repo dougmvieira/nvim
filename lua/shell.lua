@@ -41,3 +41,9 @@ vim.keymap.set("n", "<leader>fR", function()
     vim.fn.chansend(jobid, cmd)
     vim.cmd('startinsert')
 end)
+
+vim.keymap.set("n", "<leader>mb", function()
+    focus_shell_window()
+    local jobid = vim.bo.channel
+    vim.fn.chansend(jobid, "make\r")
+end)
