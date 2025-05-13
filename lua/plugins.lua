@@ -30,6 +30,8 @@ require("lazy").setup({
         {'neovim/nvim-lspconfig'},
         {'hrsh7th/cmp-nvim-lsp'},
         {'hrsh7th/nvim-cmp'},
+        { "3rd/image.nvim", build = false },
+        { "benlubas/molten-nvim", version = "^1.0.0", dependencies = { "3rd/image.nvim" }, build = ":UpdateRemotePlugins", },
     },
     -- disable `luarocks` support completely
     rocks = { enabled = false },
@@ -146,3 +148,29 @@ cmp.setup({
     end,
   },
 })
+
+-- molten and its dependencies
+---@diagnostic disable-next-line: missing-fields
+require("image").setup({
+  backend = "kitty",
+  processor = "magick_cli",
+  integrations = {}, -- do whatever you want with image.nvim's integrations
+  max_width = 100, -- tweak to preference
+  max_height = 12, -- ^
+  max_height_window_percentage = math.huge, -- this is necessary for a good experience
+  max_width_window_percentage = math.huge,
+  window_overlap_clear_enabled = true,
+  window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+})
+vim.g.molten_image_provider = "image.nvim"
+vim.g.molten_output_win_max_height = 20
+vim.keymap.set("n", "<leader>mi", ":MoltenInit<CR>",
+    { silent = true, desc = "Initialize the plugin" })
+vim.keymap.set("n", "<leader>e", ":MoltenEvaluateOperator<CR>",
+    { silent = true, desc = "run operator selection" })
+vim.keymap.set("n", "<leader>rl", ":MoltenEvaluateLine<CR>",
+    { silent = true, desc = "evaluate line" })
+vim.keymap.set("n", "<leader>rr", ":MoltenReevaluateCell<CR>",
+    { silent = true, desc = "re-evaluate cell" })
+vim.keymap.set("v", "<leader>r", ":<C-u>MoltenEvaluateVisual<CR>gv",
+    { silent = true, desc = "evaluate visual selection" })
