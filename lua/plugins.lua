@@ -28,6 +28,7 @@ require("lazy").setup({
         {'williamboman/mason.nvim'},
         {'williamboman/mason-lspconfig.nvim'},
         {'neovim/nvim-lspconfig'},
+        {'folke/lazydev.nvim'},
         {'hrsh7th/cmp-nvim-lsp'},
         {'hrsh7th/nvim-cmp'},
         { "3rd/image.nvim", build = false },
@@ -48,6 +49,7 @@ vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
 vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'none' })
 
 -- Setup treesitter
+---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
     -- A list of parser names, or "all" (the listed parsers MUST always be installed)
     ensure_installed = { "lua", "python" },
@@ -114,12 +116,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 require('mason').setup({})
+---@diagnostic disable-next-line: missing-fields
 require('mason-lspconfig').setup({
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
     end,
+  ensure_installed = { "lua_ls", "pyright" },
   }
+})
+---@diagnostic disable-next-line: missing-fields
+require('lazydev').setup({
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
 })
 
 ---
